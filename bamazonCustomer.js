@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
     user: "root",
-    password: "",
+    password: "Bl@ckKitty7",
     database: "bamazon"
 });
 
@@ -20,24 +20,31 @@ connection.connect(function(err) {
     function afterConnection() {
         connection.query("SELECT * FROM products", function(err, res) {
           if (err) throw err;
-          console.log(res);
+          // console.log(res);
+          inventoryList();
           connection.end();
         });
       }
 
-    // var query = "SELECT item_id, product_name, price FROM bamazon.products having count(*) > 0";
-    // connection.query(query, function(err, res) {
-    //     if (err) throw err;
-    //     console.log(res);
-    //     connection.end();
-    //     for (var i = 0, i < res.length; i++) {
-    //         console.log(res[i].item_id + " " + res[i].product_name + " " res[i].price)
-    //     }
-    // })
-
 //Running the app will first display all of the items available for sale.
-//Include the ids, names, and prices of products for sale.
+//Included are the ids, names, and prices of products for sale.
 
+function inventoryList() {
+  var query = "SELECT item_id, product_name, price FROM products";
+  connection.query(query, function (err, res) {
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) {
+      console.log(
+        "Item ID: " + 
+        res[i].item_id +
+        " || Product: " +
+        res[i].product_name +
+        " || Price: " +
+        res[i].price
+        );
+    }
+  });
+}
 
 //The app will then prompt users with two messages
 //The first should ask them the ID of the product they would like to buy
